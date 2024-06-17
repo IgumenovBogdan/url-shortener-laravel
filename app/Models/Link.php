@@ -11,5 +11,5 @@ class Link extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['original_url', 'token'];
+    protected $fillable = ['original_url', 'token', 'url_hash'];
 }

@@ -47,6 +47,7 @@ class LinkService
 
         return Link::create([
             'original_url' => $request->url,
+            'url_hash' => $this->linksRepository->getUrlHash($request->url),
             'token' => $token
         ]);
     }

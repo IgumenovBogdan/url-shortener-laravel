@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('links', function (Blueprint $table) {
             $table->id();
-            $table->string('original_url');
+            $table->text('original_url');
             $table->string('token', 6)->unique();
+            $table->string('url_hash', 32);
             $table->timestamps();
+
+            $table->index('url_hash');
         });
     }
 
