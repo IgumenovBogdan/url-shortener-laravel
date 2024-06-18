@@ -20,7 +20,7 @@ class LinkController extends Controller
     public function store(CreateLinkRequest $request): JsonResponse
     {
         try {
-            $link = $this->linkService->findOrCreate($request);
+            $link = $this->linkService->findOrCreate($request->url);
 
             return response()->json(new UrlResource($link));
         } catch (Exception $e) {

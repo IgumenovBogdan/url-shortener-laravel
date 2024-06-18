@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Exceptions\DangerousUrlException;
-use App\Http\Requests\CreateLinkRequest;
 use App\Models\Link;
 use App\Repositories\LinkRepository;
 use Illuminate\Support\Facades\Config;
@@ -30,20 +29,20 @@ class LinkService
         return $link;
     }
 
-    public function findOrCreate(CreateLinkRequest $request): ?Link
+    public function findOrCreate(string $url): ?Link
     {
-        $existingLink = $this->linksRepository->findByUrl($request->url);
+        $existingLink = $this->linksRepository->findByUrl($url);
 
         if ($existingLink) {
             return $existingLink;
         }
 
-        if (!$this->googleSafebrowsingService->isUrlSafe($request->url)) {
+        if (!$this->googleSafebrowsingService->isUrlSafe($url)) {
             // This exception is specifically handled in Exceptions/Handler.php
             throw new DangerousUrlException();
         }
 
-        return $this->linksRepository->createLink($request->url);
+        return $this->linksRepository->createLink($url);
     }
 
     public static function getShortenerPrefix(): string
