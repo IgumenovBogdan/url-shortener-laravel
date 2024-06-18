@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\TokenMaxTriesException;
 use App\Models\Link;
 use Illuminate\Support\Str;
 
@@ -20,7 +21,7 @@ class TokenService
             }
 
             if ($try > $maxTries) {
-                throw new UniqueHashMaxTriesException();
+                throw new TokenMaxTriesException();
             }
 
             $try++;
