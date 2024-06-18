@@ -15,7 +15,6 @@ class LinkService
 {
     public function __construct(
         private readonly LinkRepository $linksRepository,
-        private readonly TokenService $tokenService,
         private readonly GoogleSafebrowsingService $googleSafebrowsingService
     ) {
     }
@@ -40,16 +39,11 @@ class LinkService
         }
 
         if (!$this->googleSafebrowsingService->isUrlSafe($request->url)) {
+            // This exception is specifically handled in Exceptions/Handler.php
             throw new DangerousUrlException();
         }
 
-        $token = $this->tokenService->createToken();
-
-        return Link::create([
-            'original_url' => $request->url,
-            'url_hash' => $this->linksRepository->getUrlHash($request->url),
-            'token' => $token
-        ]);
+        return $this->linksRepository->createLink($request->url);
     }
 
     public static function getShortenerPrefix(): string

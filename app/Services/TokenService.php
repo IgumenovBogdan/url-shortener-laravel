@@ -13,7 +13,7 @@ class TokenService
     public function createToken(): string
     {
         $try = 0;
-        $maxTries = 10000;
+        $maxTries = 10;
         while (true) {
             $token = Str::random(6);
             if (!Link::where('token', $token)->exists()) {

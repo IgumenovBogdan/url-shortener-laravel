@@ -9,5 +9,5 @@ Route::get('/', function () {
 });
 
 Route::prefix(LinkService::getShortenerPrefix())->group(function () {
-    Route::get('/{token}', [LinkController::class, 'show']);
+    Route::get('/{token}', [LinkController::class, 'shortLinkRedirect']);
 });
